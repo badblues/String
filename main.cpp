@@ -1,9 +1,15 @@
+#define CATCH_CONFIG_MAIN
+#include <catch.hpp>
 #include "string.h"
 
-int main() {
-    char str[10] = "kek";
+TEST_CASE("STRING IS WORKING", "[STRING]") {
     String a;
-    a.setString(str);
+    char qwe[4] = "qwe";
+    a.setString(qwe);
 
-    return 0;
+    REQUIRE( a.getSize() == 3 );
+
+    a.catStr(qwe);
+
+    REQUIRE( a.getSize() == 6 );
 }

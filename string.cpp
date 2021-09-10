@@ -37,7 +37,8 @@ void String::setString(char* str) {
 void String::catStr(char* str) {
     int size = 0;
     while(str[size] != '\0') size++;
-    while(size + size_ < max_size_)
+    size_ += size;
+    while(size_ < max_size_)
         max_size_ *= 2;
     str_ = (char*) realloc(str_, max_size_);
     //TODO and this block
