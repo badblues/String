@@ -27,7 +27,7 @@ void String::setStr(const char *str) {
 void String::catStr(const char *str) {
     int size = 0;
     while (str[size] != '\0') size++;
-    while (size_ + size < max_size_)
+    while (size_ + size > max_size_)
         max_size_ *= 2;
     char *tmp = new char[max_size_];
     for (int i = 0; i <= size_; i++)
