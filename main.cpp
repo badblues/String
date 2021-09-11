@@ -3,5 +3,4 @@
 
 int main() {
     String kek("qwerty");
-    kek.catStr("qwe");
 }
