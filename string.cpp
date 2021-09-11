@@ -1,7 +1,4 @@
 #include "string.h"
-#include <cstdlib>
-
-//TODO replace malloc/realloc with new
 
 String::String() {
     str_ = nullptr;
@@ -9,53 +6,46 @@ String::String() {
     size_ = 0;
 }
 
-String::String(char* str) {
+String::String(const char *str) {
     size_ = 0;
-    while(str[size_] != '\0') size_++;
+    while (str[size_] != '\0') size_++;
     max_size_ = size_;
-    str_ = (char*) malloc(sizeof(max_size_));
-    //TODO refactor this block
-    for (int i = 0;; i++) {
+    str_ = new char[max_size_];
+    for (int i = 0; i <= size_; i++)
         str_[i] = str[i];
-        if (str[i] == '\0')
-            break;
-    }
 }
 
-void String::setString(char* str) {
-    while(str[size_] != '\0') size_++;
+void String::setStr(const char *str) {
+    size_ = 0;
+    while (str[size_] != '\0') size_++;
     max_size_ = size_;
-    str_ = (char*) malloc(max_size_);
-    //TODO refactor this block
-    for (int i = 0;; i++) {
+    str_ = new char[max_size_];
+    for (int i = 0; i <= size_; i++)
         str_[i] = str[i];
-        if (str[i] == '\0')
-            break;
-    }
 }
 
-void String::catStr(char* str) {
+void String::catStr(const char *str) {
     int size = 0;
-    while(str[size] != '\0') size++;
-    size_ += size;
-    while(size_ < max_size_)
+    while (str[size] != '\0') size++;
+    while (size_ + size < max_size_)
         max_size_ *= 2;
-    str_ = (char*) realloc(str_, max_size_);
-    //TODO and this block
-    for (int i = 0;; i++) {
+    char *tmp = new char[max_size_];
+    for (int i = 0; i <= size_; i++)
+        tmp[i] = str_[i];
+    str_ = tmp;
+    for (int i = 0; i <= size; i++)
         str_[size_ + i] = str[i];
-        if (str[i] == '\0')
-            break;
-    }
+    size_ += size;
 }
-//TODO ask Vlad to share his func fo this
-char* String::findStr(char* str) {
-    char* ptr  = nullptr;
+
+char *String::findStr(const char *str) {
+    char *ptr = nullptr;
     for (int i = 0; str_[i] != '\0'; i++)
         for (int j = 0; str[j] != '\0'; j++) {
             if (str_[i + j] != str[j])
                 break;
-            ptr = &(str_[i + j]);
+            if (str[j + 1] == '\0')
+                ptr = &(str_[i]);
         }
     return ptr;
 }
