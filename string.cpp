@@ -68,6 +68,8 @@ int& String::operator [] (unsigned int i) {
 }
 
 void String::setStr(const char *str) {
+    if (str == nullptr)
+        throw (str_nullptr_error);
     size_ = 0;
     while (str[size_] != '\0') size_++;
     max_size_ = size_;
