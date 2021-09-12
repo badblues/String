@@ -6,6 +6,12 @@ class String {
         String();
         String(const char *str);
         ~String() {};
+        String& operator = (String& str2);
+        String operator + (const String& str2);
+        String operator + (const char* str2);
+        String operator - (const String& str2);
+        String operator - (const char* str2);
+        int& operator [] (unsigned int i);
         void setStr(const char *str);
         void catStr(const char *str);
         char *findStr(const char *str);
