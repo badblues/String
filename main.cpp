@@ -1,9 +1,7 @@
-#include "string.h"
 #include <iostream>
+#include "string.h"
+#include "errors.h"
 
 int main() {
-    String kek("qwerty");
-    String lol("ert");
-    kek = lol;
-    std::cout << kek.getStr();
+    return 0;
 }

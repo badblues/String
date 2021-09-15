@@ -1,49 +1,49 @@
+#include <iostream>
 #include "string.h"
-
-String::String() {
-    str_ = nullptr;
-    max_size_ = 0;
-    size_ = 0;
-}
+#include "errors.h"
 
 String::String(const char *str) {
-    size_ = 0;
-    while (str[size_] != '\0') size_++;
-    max_size_ = size_;
-    str_ = new char[max_size_];
-    for (int i = 0; i <= size_; i++)
-        str_[i] = str[i];
+    if (str == nullptr)
+        throw Error("str is nullptr\n");
+    this->setStr(str);
 }
 
-String& String::operator = (String& str2) {
-    this->setStr(str2.getStr());
+String::String(String const& str) {
+    this->setStr(str.str_);
+}
+
+String& String::operator = (String str2) {
+    this->setStr(str2.str_);
     return *this;
 }
 
-String String::operator + (const String& str2) {
-    String result(this->str_);
+String operator + (String str1, String str2) {
+    String result(str1.str_);
     result.catStr(str2.str_);
     return result;
 }
 
-String String::operator + (const char* str2) {
-    this->catStr(str2);
-    return *this;
+String operator + (String str1, const char* str2) {
+    String result(str1.str_);
+    result.catStr(str2);
+    return result;
 }
 
-String String::operator - (const String& str2) {
-    char* tmp = this->findStr(str2.str_);
+String operator - (String str1, String str2) {
+    String result(str1.str_);
+    char* tmp = result.findStr(str2.str_);
     if (tmp != nullptr) {
         while(*(tmp - 1) != '\0') {
             *tmp = *(tmp + str2.size_);
             tmp++;
         }
     }
-    return *this;
+    return result;
 }
 
-String String::operator - (const char* str2) {
-    char* tmp = this->findStr(str2);
+String operator - (String str1, const char* str2) {
+    String result(str1.str_);
+    char* tmp = result.findStr(str2);
     if (tmp != nullptr) {
         int size = 0;
         while (str2[size] != '\0') size++;
@@ -52,7 +52,7 @@ String String::operator - (const char* str2) {
             tmp++;
         }
     }
-    return *this;
+    return result;
 }
 
 //TODO add returning char*
@@ -69,7 +69,7 @@ int& String::operator [] (unsigned int i) {
 
 void String::setStr(const char *str) {
     if (str == nullptr)
-        throw (str_nullptr_error);
+        throw Error("str is nullptr\n");
     size_ = 0;
     while (str[size_] != '\0') size_++;
     max_size_ = size_;
@@ -79,6 +79,8 @@ void String::setStr(const char *str) {
 }
 
 void String::catStr(const char *str) {
+    if (str == nullptr)
+        throw Error("str is nullptr\n");
     int size = 0;
     while (str[size] != '\0') size++;
     while (size_ + size > max_size_)
@@ -93,6 +95,8 @@ void String::catStr(const char *str) {
 }
 
 char *String::findStr(const char *str) {
+    if (str == nullptr)
+        throw Error("str is nullptr\n");
     char *ptr = nullptr;
     for (int i = 0; str_[i] != '\0'; i++)
         for (int j = 0; str[j] != '\0'; j++) {
