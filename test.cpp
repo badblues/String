@@ -55,10 +55,10 @@ TEST_CASE("OPERATORS IS WORKING", "[STRING]") {
     }
 
     SECTION (" indexation ") {
-        REQUIRE(str1[0] == 6);
-        REQUIRE(str1[1] == 6);
-        REQUIRE(str2[0] == 3);
-        REQUIRE(str2[1] == 3);
+        REQUIRE(str1[0] == (int)'q');
+        REQUIRE(str1[1] == (int)'w');
+        REQUIRE(str2[0] == (int)'w');
+        REQUIRE(str2[1] == (int)'e');
     }
 }
 

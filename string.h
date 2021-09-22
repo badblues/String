@@ -1,9 +1,11 @@
 #ifndef LAB_STRING_STRING_H
 #define LAB_STRING_STRING_H
 
+//TODO learn about destructors and deleting an class object
+//TODO "copy constructor must pass it's first argument with &"
 class String {
     public:
-        String() {}
+        String();
         String(const char *str);
         String(String const& str);
         ~String() {};
@@ -12,7 +14,7 @@ class String {
         friend String operator + (String str1, const char* str2);
         friend String operator - (String str1, String str2);
         friend String operator - (String str1, const char* str2);
-        int& operator [] (unsigned int i);
+        char& operator [] (unsigned int i);
         void setStr(const char *str);
         void catStr(const char *str);
         char *findStr(const char *str);
@@ -20,9 +22,9 @@ class String {
         int getMaxSize() { return max_size_; };
         int getSize() { return size_; };
     private:
-        char *str_{};
-        int max_size_{};
-        int size_{};
+        char *str_;
+        int max_size_;
+        int size_;
 };
 
 #endif //LAB_STRING_STRING_H

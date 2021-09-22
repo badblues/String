@@ -3,5 +3,8 @@
 #include "errors.h"
 
 int main() {
-    return 0;
+    String a("kekovo");
+    std::cout << a[4];
+    a[4] = ' ';
+    std::cout << " " << a.getStr();
 }

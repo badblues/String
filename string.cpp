@@ -2,6 +2,10 @@
 #include "string.h"
 #include "errors.h"
 
+String::String() {
+    setStr("");
+}
+
 String::String(const char *str) {
     if (str == nullptr)
         throw Error("str is nullptr\n");
@@ -55,16 +59,11 @@ String operator - (String str1, const char* str2) {
     return result;
 }
 
-//TODO add returning char*
-int& String::operator [] (unsigned int i) {
-    switch(i) {
-        case 0:
-            return size_;
-        case 1:
-            return max_size_;
-        default:
-            return size_;
+char& String::operator [] (unsigned int i) {
+    if (i > size_) {
+        throw Error("n/a index\n");
     }
+    return str_[i];
 }
 
 void String::setStr(const char *str) {
