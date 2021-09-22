@@ -11,23 +11,37 @@ TEST_CASE("STRING IS WORKING", "[STRING]") {
     REQUIRE(str.getMaxSize() == 6);
     REQUIRE(strcmp(str.getStr(), "qwerty") == 0);
 
+    SECTION(" constructors ") {
+        String a("Hello", 1, 2);
+        REQUIRE(strcmp(a.getStr(), "el") == 0);
+        String b(str, 3, 3);
+        REQUIRE(strcmp(b.getStr(), "rty") == 0);
+    }
+
     SECTION (" adding word ") {
         str.catStr("qwe");
 
         REQUIRE(str.getSize() == 9);
-        REQUIRE(str.getMaxSize() == 12);
+        REQUIRE(str.getMaxSize() == 9);
+        REQUIRE(strcmp(str.getStr(), "qwertyqwe") == 0);
     }
 
     SECTION (" resetting str ") {
         str.setStr("");
-
         REQUIRE(str.getSize() == 0);
         REQUIRE(str.getMaxSize() == 0);
+        REQUIRE(strcmp(str.getStr(), "") == 0);
+
+        str.setStr("WORLD", 2, 2);
+        REQUIRE(str.getSize() == 2);
+        REQUIRE(str.getMaxSize() == 2);
+        REQUIRE(strcmp(str.getStr(), "RL") == 0);
     }
 
     SECTION (" finding substring ") {
         REQUIRE(str.findStr("r") - str.getStr() == 3);
         REQUIRE(str.findStr("a") == nullptr);
+        REQUIRE(str.findStr("") == nullptr);
     }
 
 }

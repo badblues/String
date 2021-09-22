@@ -2,18 +2,33 @@
 #include "string.h"
 #include "errors.h"
 
+int String::number_of_objects_ = 0;
+
 String::String() {
     setStr("");
+    number_of_objects_++;
 }
 
 String::String(const char *str) {
     if (str == nullptr)
         throw Error("str is nullptr\n");
     this->setStr(str);
+    number_of_objects_++;
 }
 
 String::String(String const& str) {
     this->setStr(str.str_);
+    number_of_objects_++;
+}
+
+String::String(const char *str, int pos, int len) {
+    this->setStr(str, pos, len);
+    number_of_objects_++;
+}
+
+String::String(String &str, int pos, int len) {
+    this->setStr(str.getStr(), pos, len);
+    number_of_objects_++;
 }
 
 String& String::operator = (String str2) {
@@ -75,6 +90,22 @@ void String::setStr(const char *str) {
     str_ = new char[max_size_];
     for (int i = 0; i <= size_; i++)
         str_[i] = str[i];
+}
+
+void String::setStr(const char *str, int pos, int len) {
+    if (str == nullptr)
+        throw Error("str is nullptr\n");
+    size_ = 0;
+    int size = 0;
+    while(str[size] != 0) size++;
+    if (pos >= size)
+        throw Error ("n/a index\n");
+    while ((str[size_ + pos] != '\0') && (size_ < len)) size_++;
+    max_size_ = size_;
+    str_ = new char[max_size_];
+    for (int i = 0; i <= size_; i++)
+        str_[i] = str[i + pos];
+    str_[size_] = '\0';
 }
 
 void String::catStr(const char *str) {
