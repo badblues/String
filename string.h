@@ -3,6 +3,8 @@
 
 //TODO learn about destructors and deleting an class object
 //TODO "copy constructor must pass it's first argument with &"
+//TODO check leaks
+
 class String {
     public:
         String();

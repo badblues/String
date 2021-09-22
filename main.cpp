@@ -3,8 +3,9 @@
 #include "errors.h"
 
 int main() {
-    String a("kekovo");
-    std::cout << a[4];
-    a[4] = ' ';
-    std::cout << " " << a.getStr();
+    String a;
+    std::cout << "a: " << a.getStr() << "\n";
+    String c = a + "kek";
+    std::cout << "c: " << c.getStr() << "\n";
+    return 0;
 }
