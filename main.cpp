@@ -1,14 +1,14 @@
 #include <iostream>
-#include "string.h"
-#include "errors.h"
+#include "lib/String.h"
 
 int main() {
+    String str1("qwerty");
+    String str2("wer");
+    String res = str1 + str2;
+    String res2 = res + "kek";
 
-    String str("qwerty");
-    String a("Hello", 1, 2);
-    std::cout << "a: " << a.getStr() << std::endl;
-    String b(str, 3, 3);
-    std::cout << "b: " << b.getStr() << std::endl;
-    std::cout << String::getNumberOfObjects();
+    String res3 = res2 + "111";
+
+
     return 0;
 }
