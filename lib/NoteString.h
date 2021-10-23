@@ -1,29 +1,23 @@
 #pragma once
+#include <ctime>
 #include "String.h"
 
-struct Date {
-    unsigned int day;
-    unsigned int month;
-    unsigned int year;
-};
 
 class NoteString : public String {
     public:
         NoteString();
-        NoteString(const char* msg, Date beg, Date end);
-        NoteString(const char* msg, Date beg, Date end, bool flag);
+        NoteString(const char* msg, tm beg, tm end);
+        NoteString(const char* msg, tm beg, tm end, bool flag);
         NoteString(const NoteString& note);
-        void setBeginning(const Date beg);
-        void setEnd(const Date end);
-        void setFlag(const bool flag);
-        char* toStr();
-        Date getBeginning() const { return beg_; }
-        Date getEnd() const {return end_; }
-        bool getFlag() const { return flag_; }
-        static Date toDate(unsigned int day, unsigned int month, unsigned int year);
+        void setBeginning(tm beg);
+        void setEnd(tm end);
+        void setFlag(bool flag);
+        const char* toStr();
+        virtual tm getBeginning() const { return beg_; }
+        virtual tm getEnd() const {return end_; }
+        virtual bool getFlag() const { return flag_; }
     private:
-        Date checkDate(Date date);
-        Date beg_;
-        Date end_;
+        tm beg_{};
+        tm end_{};
         bool flag_;
 };

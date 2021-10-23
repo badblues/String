@@ -4,34 +4,67 @@
 
 using namespace std;
 
+
 int String::number_of_objects_ = 0;
 
 String::String() {
-    setStr("");
+    capacity_ = size_ = 0;
+    str_ = new char[1];
+    *str_ = '\0';
     number_of_objects_++;
 }
 
 String::String(const char *str) {
     if (str == nullptr)
         throw invalid_argument("Can't write nullptr");
-    this->setStr(str);
+    size_ = 0;
+    while (str[size_] != '\0') size_++;
+    capacity_ = size_;
+    str_ = new char[capacity_];
+    for (int i = 0; i <= size_; i++)
+        str_[i] = str[i];
     number_of_objects_++;
 }
 
 String::String(const String& str) {
-    this->setStr(str);
+    size_ = 0;
+    while (str.str_[size_] != '\0') size_++;
+    capacity_ = size_;
+    str_ = new char[capacity_];
+    for (int i = 0; i <= size_; i++)
+        str_[i] = str.str_[i];
     number_of_objects_++;
 }
 
 String::String(const char *str, int pos, int len) {
     if (str == nullptr)
         throw invalid_argument("Can't write nullptr");
-    this->setStr(str, pos, len);
+    size_ = 0;
+    int size = 0;
+    while(str[size] != 0) size++;
+    if ((pos >= size) && (pos < 0))
+        throw out_of_range("n/a index");
+    while ((str[size_ + pos] != '\0') && (size_ < len)) size_++;
+    capacity_ = size_;
+    str_ = new char[capacity_];
+    for (int i = 0; i <= size_; i++)
+        str_[i] = str[i + pos];
+    str_[size_] = '\0';
     number_of_objects_++;
 }
 
 String::String(const String &str, int pos, int len) {
-    this->setStr(str, pos, len);
+    size_ = 0;
+    int size = 0;
+    while(str.str_[size] != 0) size++;
+    if ((pos >= size) && (pos < 0))
+        throw out_of_range("n/a index");
+    while ((str.str_[size_ + pos] != '\0') && (size_ < len)) size_++;
+    capacity_ = size_;
+    str_ = new char[capacity_];
+    for (int i = 0; i <= size_; i++)
+        str_[i] = str.str_[i + pos];
+    str_[size_] = '\0';
     number_of_objects_++;
 }
 
@@ -46,6 +79,7 @@ void String::setStr(const char * str) {
     size_ = 0;
     while (str[size_] != '\0') size_++;
     capacity_ = size_;
+    delete[] str_;
     str_ = new char[capacity_];
     for (int i = 0; i <= size_; i++)
         str_[i] = str[i];
@@ -65,6 +99,7 @@ void String::setStr(const char *str, int pos, int len) {
         throw out_of_range("n/a index");
     while ((str[size_ + pos] != '\0') && (size_ < len)) size_++;
     capacity_ = size_;
+    delete[] str_;
     str_ = new char[capacity_];
     for (int i = 0; i <= size_; i++)
         str_[i] = str[i + pos];
@@ -79,6 +114,7 @@ void String::setStr(const String &str, int pos, int len) {
         throw out_of_range("n/a index");
     while ((str.str_[size_ + pos] != '\0') && (size_ < len)) size_++;
     capacity_ = size_;
+    delete[] str_;
     str_ = new char[capacity_];
     for (int i = 0; i <= size_; i++)
         str_[i] = str.str_[i + pos];
@@ -197,17 +233,37 @@ char& String::operator [] (unsigned int i) {
         throw out_of_range("n/a index");
     }
     return str_[i];
+
 }
 
 istream& operator >> (istream& is, String& str) {
     char *tmp = new char[1000];
-    cin.getline(tmp, 1000);
+    is.getline(tmp, 1000);
     str.setStr(tmp);
     delete[] tmp;
     return is;
 }
 
 ostream& operator << (ostream& os, String& str) {
-    os << str.getStr();
+    os << str.getStr() << '\n';
     return os;
+}
+
+ofstream& String::toBin(ofstream& out) {
+    std::cout << __FUNCTION__ << '\n';
+    int size = this->getSize();
+    out.write(reinterpret_cast <const char*> (&size), sizeof(int));
+    out.write(this->getStr(), sizeof(char) * this->getSize());
+    return out;
+}
+
+ifstream& String::fromBin(ifstream& in) {
+    std::cout << __FUNCTION__ << '\n';
+    char* tmp = new char[1000];
+    int size;
+    in.read((char*)&size, sizeof(int));
+    in.read(tmp, size * sizeof(char));
+    this->setStr(tmp);
+    delete[] tmp;
+    return in;
 }

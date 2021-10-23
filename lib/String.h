@@ -1,10 +1,12 @@
 #pragma once
+#include <fstream>
 #include <istream>
 #include <ostream>
 
-using namespace std;
+//Am I did the NoteString getters right??
+//Virtual destructors
 
-//TODO overload io operators
+using namespace std;
 
 class String {
     public:
@@ -14,16 +16,16 @@ class String {
         String(const char *str, int pos, int len);
         String(const String &str, int pos, int len);
         ~String();
-        void setStr(const char *str);
-        void setStr(const String &str);
-        void setStr(const char *str, int pos, int len);
-        void setStr(const String &str, int pos, int len);
+        virtual void setStr(const char *str);
+        virtual void setStr(const String &str);
+        virtual void setStr(const char *str, int pos, int len);
+        virtual void setStr(const String &str, int pos, int len);
         void catStr(const char *str);
         void catStr(const String &str);
         char *findStr(const char *str);
         char *findStr(const String &str);
         char *getStr() const { return str_; };
-        int getCapacity() { return capacity_; };
+        int getCapacity() const { return capacity_; };
         int getSize() const { return size_; };
         //operators
         String& operator = (const String& str2);
@@ -35,8 +37,17 @@ class String {
         //io streams
         friend istream& operator >> (istream& is, String& str);
         friend ostream& operator << (ostream& os, String& str);
-        //friend ifstream& operator >> (ifstream& ifs, String& str);
-        //friend ofstream& operator << (ofstream& ofs, String& str);
+        ofstream& toBin(ofstream& out);
+        ifstream& fromBin(ifstream& in);
+        //abstract
+        virtual void setBeginning(tm beg) {};
+        virtual void setEnd(tm end) {};
+        virtual void setFlag(bool flag) {};
+        virtual const char* toStr() {};
+        virtual tm getBeginning() {};
+        virtual tm getEnd() {};
+        virtual bool getFlag() {};
+        //static
         static int getNumberOfObjects() { return number_of_objects_; }
     private:
         static int number_of_objects_;

@@ -2,10 +2,18 @@
 #include <stdexcept>
 
 BinString::BinString(const char* bstr) {
-    setStr(bstr);
+    for(int i = 0; bstr[i] != '0'; i++) {
+        if ((bstr[i] != '0') && (bstr[i] != '1') && ((i == 0) && (bstr[i] != '-')))
+            throw std::out_of_range("Binary number must be performed by '0' and '1'");
+    }
+    String::setStr(bstr);
 }
 BinString::BinString(const BinString& bstr) {
-    setStr(bstr);
+    for(int i = 0; bstr.getStr()[i] != '0'; i++) {
+        if ((bstr.getStr()[i] != '0') && (bstr.getStr()[i] != '1') && ((i == 0) && (bstr.getStr()[i] != '-')))
+            throw std::out_of_range("Binary number must be performed by '0' and '1'");
+    }
+    String::setStr(bstr);
 }
 
 void BinString::setStr(const char* bstr) {

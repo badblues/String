@@ -6,8 +6,7 @@ class BinString : public String {
         BinString() : String() {};
         BinString(const char* bstr);
         BinString(const BinString& bstr);
-        void setStr(const char* bstr);
-        void setStr(const BinString& bstr);
+        virtual void setStr(const char* bstr);
+        virtual void setStr(const BinString& bstr);
         void setFromInt(int num);
-
 };

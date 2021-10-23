@@ -1,70 +1,47 @@
 #include "NoteString.h"
 #include <iostream>
-#include <strstream>
+#include <sstream>
 
 NoteString::NoteString() {
-    Date date;
-    date.day = 1;
-    date.month = 1;
-    date.year = 2021;
-    setBeginning(date);
-    setEnd(date);
-    setFlag(false);
+    tm date;
+    beg_ = date;
+    end_ = date;
+    flag_ = false;
 }
-NoteString::NoteString(const char* msg, Date beg, Date end) {
-    setStr(msg);
-    setBeginning(beg);
-    setEnd(end);
-    setFlag(false);
+NoteString::NoteString(const char *msg, tm beg, tm end) {
+    String::setStr(msg);
+    this->beg_ = beg;
+    this->end_ = end;
+    flag_ = false;
 }
-NoteString::NoteString(const char* msg, Date beg, Date end, bool flag) {
-    setStr(msg);
-    setBeginning(beg);
-    setEnd(end);
-    setFlag(flag);
-}
-NoteString::NoteString(const NoteString& note) {
-    setStr(note.getStr());
-    setBeginning(note.getBeginning());
-    setEnd(note.getEnd());
-    setFlag(note.getFlag());
-}
-void NoteString::setBeginning(const Date beg) {
-    try {
-        beg_ = checkDate(beg);
-    } catch (std::exception& ex) {
-        throw;    //  throwing exception further
-    }
-}
-void NoteString::setEnd(const Date end) {
-    try {
-        end_ = checkDate(end);
-    } catch (std::exception& ex) {
-        throw;
-    }
-}
-void NoteString::setFlag(const bool flag) {
+NoteString::NoteString(const char *msg, tm beg, tm end, bool flag) {
+    String::setStr(msg);
+    this->beg_ = beg;
+    this->end_ = end;
     flag_ = flag;
 }
-char* NoteString::toStr() {
-    strstream ss;
-    ss << getStr() << ": " << beg_.day << "." << beg_.month << "." << beg_.year << " - "
-                    << end_.day << "." << end_.month << "." << end_.year << " Completion - " << flag_ << '\0';
-    return ss.str();
+NoteString::NoteString(const NoteString &note) {
+    String::setStr(note.getStr());
+    beg_ = note.beg_;
+    end_ = note.end_;
+    flag_ = note.flag_;
 }
 
-Date NoteString::toDate(unsigned int day, unsigned int month, unsigned int year) {
-    Date date;
-    date.day = day;
-    date.month = month;
-    date.year = year;
-    return date;
+void NoteString::setBeginning(tm beg) {
+    this->beg_ = beg;
 }
 
-Date NoteString::checkDate(Date date) {
-    if ((date.day > 31) || (date.day == 0))
-        throw std::invalid_argument("Days number must be less than or equal to 31 and non-zero");
-    if ((date.month > 12) || (date.month == 0))
-        throw std::invalid_argument("Months number must be less than or equal to 12 and non-zero");
-    return date;
+void NoteString::setEnd(tm end) {
+    this->end_ = end;
+}
+
+void NoteString::setFlag(bool flag) {
+    flag_ = flag;
+}
+
+const char *NoteString::toStr() {
+    stringstream ss;
+    ss << getStr() << ": " << beg_.tm_mday << "." << beg_.tm_mon << "." << beg_.tm_year << " - "
+       << end_.tm_mday << "." << end_.tm_mon << "." << end_.tm_year << " Completion - " << flag_ << '\0';
+    return ss.str().c_str();
 }
