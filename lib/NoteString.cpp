@@ -1,6 +1,6 @@
 #include "NoteString.h"
 #include <iostream>
-#include <sstream>
+#include <strstream>
 
 NoteString::NoteString() {
     tm date;
@@ -40,8 +40,8 @@ void NoteString::setFlag(bool flag) {
 }
 
 const char *NoteString::toStr() {
-    stringstream ss;
+    strstream ss;
     ss << getStr() << ": " << beg_.tm_mday << "." << beg_.tm_mon << "." << beg_.tm_year << " - "
        << end_.tm_mday << "." << end_.tm_mon << "." << end_.tm_year << " Completion - " << flag_ << '\0';
-    return ss.str().c_str();
+    return ss.str();
 }

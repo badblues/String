@@ -1,8 +1,6 @@
 #pragma once
 #include "String.h"
 
-//TODO overload virtuals
-
 class Stack {
     public:
         Stack();
@@ -12,7 +10,8 @@ class Stack {
         void pop();
         void addByPosition(unsigned int pos, String* obj);
         void deleteByPosition(unsigned int pos);
-        String& getObj() { return *(current->obj); }
+        bool isEmpty() { return head == nullptr; }
+        String& top() { return *(current->obj); }
         String& begin();
         String& next();
         String& operator ++();
@@ -27,3 +26,5 @@ class Stack {
         Node* current;
         Node* head;
 };
+
+

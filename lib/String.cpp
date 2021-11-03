@@ -250,7 +250,6 @@ ostream& operator << (ostream& os, String& str) {
 }
 
 ofstream& String::toBin(ofstream& out) {
-    std::cout << __FUNCTION__ << '\n';
     int size = this->getSize();
     out.write(reinterpret_cast <const char*> (&size), sizeof(int));
     out.write(this->getStr(), sizeof(char) * this->getSize());
@@ -258,7 +257,6 @@ ofstream& String::toBin(ofstream& out) {
 }
 
 ifstream& String::fromBin(ifstream& in) {
-    std::cout << __FUNCTION__ << '\n';
     char* tmp = new char[1000];
     int size;
     in.read((char*)&size, sizeof(int));
