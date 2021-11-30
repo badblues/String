@@ -3,9 +3,6 @@
 #include <istream>
 #include <ostream>
 
-//Am I did the NoteString getters right??
-//Virtual destructors
-
 using namespace std;
 
 class String {
@@ -43,10 +40,10 @@ class String {
         virtual void setBeginning(tm beg) {};
         virtual void setEnd(tm end) {};
         virtual void setFlag(bool flag) {};
-        virtual const char* toStr() {};
-        virtual tm getBeginning() {};
-        virtual tm getEnd() {};
-        virtual bool getFlag() {};
+        virtual const char* toStr() { return {}; };
+        virtual tm getBeginning() { return {}; };
+        virtual tm getEnd() { return {}; };
+        virtual bool getFlag() { return {}; };
         //static
         static int getNumberOfObjects() { return number_of_objects_; }
     private:

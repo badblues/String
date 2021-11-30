@@ -3,26 +3,27 @@
 template <class T>
     class UniversalStack {
     public:
-    UniversalStack();
-    UniversalStack(T* obj);
-    ~UniversalStack();
-    void push(T* obj);
-    void pop();
-    void addByPosition(unsigned int pos, T* obj);
-    void deleteByPosition(unsigned int pos);
-    bool isEmpty() { return head == nullptr; };
-    T& top() { return *(current->obj); };
-    T& begin();
-    T& next();
-    T& operator++();
+        UniversalStack();
+        UniversalStack(T* obj);
+        ~UniversalStack();
+        void push(T* obj);
+        T pop();
+        void addByPosition(unsigned int pos, T* obj);
+        void deleteByPosition(unsigned int pos);
+        bool isEmpty() { return head == nullptr; };
+        T* top() { return current->obj; };
+        T* begin();
+        T* next();
+        T* operator++();
     private:
-    struct Node {
-        T* obj;
-        struct Node* next;
-        Node(T* ob) { obj = ob; next = nullptr; };
-    };
-    Node* current;
-    Node* head;
+        struct Node {
+            T* obj;
+            struct Node* next;
+            Node(T* ob) { obj = ob; next = nullptr; };
+            ~Node() { delete obj; }
+        };
+        Node* current;
+        Node* head;
 };
 
 
@@ -53,12 +54,15 @@ void UniversalStack<T>::push(T* obj) {
 }
 
 template <typename T>
-void UniversalStack<T>::pop() {
+T UniversalStack<T>::pop() {
     if (head) {
+        T tmp = *(head->obj);
         Node* newHead = head->next;
         delete head;
         head = newHead;
+        return tmp;
     }
+        return {};
 }
 
 template <typename T>
@@ -96,19 +100,95 @@ void UniversalStack<T>::deleteByPosition(unsigned int pos) {
 }
 
 template <typename T>
-T& UniversalStack<T>::begin() {
+T* UniversalStack<T>::begin() {
     current = head;
-    return *(current->obj);
+    return current->obj;
 }
 
 template <typename T>
-T& UniversalStack<T>::next() {
+T* UniversalStack<T>::next() {
     current = current->next;
-    return *(current->obj);
+    return current->obj;
 }
 
 template <typename T>
-T& UniversalStack<T>::operator++() {
+T* UniversalStack<T>::operator++() {
     current = current->next;
-    return *(current->obj);
+    return current->obj;
+}
+
+template <>
+class UniversalStack<String>{
+    public:
+        UniversalStack();
+        UniversalStack(String* obj);
+        ~UniversalStack();
+        void push(String* obj);
+        String pop();
+        bool isEmpty() { return head == nullptr; };
+        String* top() { return current->obj; };
+        String* begin();
+        String* next();
+        String* operator++();
+        char* getStr();
+    private:
+        struct Node {
+            String* obj;
+            struct Node* next;
+            Node(String* ob) { obj = ob; next = nullptr; };
+            ~Node() { delete obj; }
+        };
+        Node* current;
+        Node* head;
+};
+
+UniversalStack<String>::UniversalStack() {
+    head = nullptr;
+    current = nullptr;
+};
+
+UniversalStack<String>::UniversalStack(String *obj) {
+    Node* node = new Node(obj);
+    node->next = nullptr;
+    head = current = node;
+}
+
+UniversalStack<String>::~UniversalStack() {
+    while(head)
+        pop();
+}
+
+void UniversalStack<String>::push(String *obj) {
+    Node* node = new Node(obj);
+    node->next = head;
+    head = node;
+}
+
+String UniversalStack<String>::pop() {
+    if (head) {
+        String tmp = *(head->obj);
+        Node* newHead = head->next;
+        delete head;
+        head = newHead;
+        return tmp;
+    }
+    return {};
+}
+
+String* UniversalStack<String>::begin() {
+    current = head;
+    return current->obj;
+}
+
+String* UniversalStack<String>::next() {
+    current = current->next;
+    return current->obj;
+}
+String* UniversalStack<String>::operator++() {
+    current = current->next;
+    return current->obj;
+}
+
+char* UniversalStack<String>::getStr() {
+    return current->obj->getStr();
 }

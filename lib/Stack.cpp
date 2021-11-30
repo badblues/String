@@ -23,12 +23,15 @@ void Stack::push(String* obj) {
     head = node;
 }
 
-void Stack::pop() {
+String Stack::pop() {
     if (head) {
+        String tmp(*(head->obj));
         Node* newHead = head->next;
         delete head;
         head = newHead;
+        return tmp;
     }
+        return {};
 }
 
 void Stack::addByPosition(unsigned int pos, String *obj) {
@@ -63,17 +66,17 @@ void Stack::deleteByPosition(unsigned int pos) {
     }
 }
 
-String& Stack::begin() {
+String* Stack::begin() {
     current = head;
-    return *(current->obj);
+    return current->obj;
 }
 
-String& Stack::next() {
+String* Stack::next() {
     current = current->next;
-    return *(current->obj);
+    return current->obj;
 }
 
-String& Stack::operator++() {
+String* Stack::operator++() {
     current = current->next;
-    return *(current->obj);
+    return current->obj;
 }
